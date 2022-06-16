@@ -12,7 +12,7 @@ const Posts = ({ posts }) => {
             <Card key={post.id} className='my-3 shadow mx-2'>
                 <Card.Body>
                     <Card.Title>
-                        {post.title}
+                        {post.id}. {post.title}
                     </Card.Title>
                     <Card.Text>
                         {post.body}
@@ -28,7 +28,7 @@ const Posts = ({ posts }) => {
 }
 
 export const getStaticProps = async () => {
-    const posts = await getPosts()
+    const posts = await getPosts(10)
     return {
         props: {
             posts
