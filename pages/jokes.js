@@ -6,35 +6,33 @@ import Layout from '../components/Layout'
 import { getRandomJoke } from '../lib/joke'
 
 const Jokes = ({joke}) => {
-    const router = useRouter()
 
-    if (router.isFallback) {
+    if (joke.value) {
         return (
             <Layout>
-                <div className='text-center mt-5'>
-                    <Spinner animation='border' role='status' variant='dark'>
-                    </Spinner>
-                    <span className='sr-only'>LOADING . . .</span>
-                </div>
+                <Card className='my-3 shadow mx-2'>
+                    <Card.Body>
+                        <Card.Title>Random Joke</Card.Title>
+                        <Card.Text>{joke.value}</Card.Text>
+                        <Link href='/' passHref>
+                            <Card.Link>Back</Card.Link>
+                        </Link>
+                    </Card.Body>
+                </Card>
             </Layout>
         )
     }
 
-
-  return (
-    <Layout>
-        <Card className='my-3 shadow mx-2'>
-            <Card.Body>
-                <Card.Title>Random Joke</Card.Title>
-                <Card.Text>{joke.value}</Card.Text>
-                <Link href='/' passHref>
-                    <Card.Link>Back</Card.Link>
-                </Link>
-            </Card.Body>
-            
-        </Card>
-    </Layout>
-  )
+    return (
+        <Layout>
+            <div className='text-center mt-5'>
+                <Spinner animation='border' role='status' variant='dark'>
+                </Spinner>
+                <span className='sr-only'>LOADING . . .</span>
+            </div>
+        </Layout>
+    )
+  
 }
 
 export const getServerSideProps = async () => {
