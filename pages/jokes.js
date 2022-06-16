@@ -1,10 +1,26 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
-import { Card } from 'react-bootstrap'
+import { Card, Spinner } from 'react-bootstrap'
 import Layout from '../components/Layout'
 import { getRandomJoke } from '../lib/joke'
 
 const Jokes = ({joke}) => {
+    const router = useRouter()
+
+    if (router.isFallback) {
+        return (
+            <Layout>
+                <div className='text-center mt-5'>
+                    <Spinner animation='border' role='status' variant='dark'>
+                    </Spinner>
+                    <span className='sr-only'>LOADING . . .</span>
+                </div>
+            </Layout>
+        )
+    }
+
+
   return (
     <Layout>
         <Card className='my-3 shadow mx-2'>
