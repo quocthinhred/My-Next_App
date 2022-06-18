@@ -41,6 +41,7 @@ const Post = ({ post }) => {
 
 export const getStaticPaths = async () => {
     const paths = await getPostIds()
+    console.log(paths)
     return {
         paths,
         // fallback: false // Path nào không return bởi getStaticPaths sẽ dẫn về 404
