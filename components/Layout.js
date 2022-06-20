@@ -15,7 +15,7 @@ const Layout = ({children}) => (
         <header>
             <NavbarMenu></NavbarMenu>
         </header>
-        <main>{children}</main>
+        <main style={{ paddingBottom: '30px' }}>{children}</main>
     </Fragment>
 )   
 

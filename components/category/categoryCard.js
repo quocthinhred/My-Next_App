@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function CategoryCard(props) {
 
     const Image = styled.img `
         width: 100%;
@@ -27,6 +26,10 @@ function CategoryCard(props) {
         padding: 3%;
         text-transform: capitalize;
     `
+
+function CategoryCard(props) {
+
+    
 
   return (
     <Card>

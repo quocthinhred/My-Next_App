@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
+const Image = styled.img`
+width: 100vw;
+height: 500px;
+`;
+
 function Slider() {
 
-    const Image = styled.img`
-        width: 100vw;
-        height: 400px;
-    `;
+   
 
   return (
     <div>

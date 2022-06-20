@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function ProductCard(props) {
-    const Image = styled.img`
+const Image = styled.img`
         width: 100%;
         height: 75%;
     `
 
     const Card = styled.div`
+        padding: 15px;
         margin: 20px;
         width: 20vw;
         height: 40vw;
@@ -24,21 +24,31 @@ function ProductCard(props) {
 
     const Name = styled.div`
         padding: 5%;
+        overflow: hidden;
+        display: -webkit-box;
+        display: inherit;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     `
 
     const Price = styled.div `
         padding: 5%;
         padding-top: 0;
     `
+    
+function ProductCard(props) {
+    
 
     return (
         <Card>
-            <Image src='/image/slider1.jpg' alt='category' />
+            <Image src={props.image} alt='category' />
             <Name>
                 {props.name}
             </Name>
             <Price>
-                {props.price}
+                ${props.price}
             </Price>
         </Card>
     )
