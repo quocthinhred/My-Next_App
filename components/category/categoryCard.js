@@ -9,7 +9,7 @@ import styled from 'styled-components'
 
     const Card = styled.div `
         margin: 10px;
-        width: 24vw;
+        width: 22vw;
         height: 18vw;
         max-width: 340px;
         max-height: 210px;
