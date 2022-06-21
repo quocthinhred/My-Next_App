@@ -17,3 +17,23 @@ body {
   color: white;
   background: #ff4c3b;
 }
+
+@keyframes show {
+	0% {
+		transform: scale(0.2);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes hidden {
+	0% {
+		transform: scale(1);
+	}
+
+	100% {
+		transform: scale(0);
+	}
+}
