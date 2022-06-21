@@ -1,4 +1,4 @@
-import React, { Fragment, useRef } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 const Image = styled.img`
@@ -133,23 +133,31 @@ function Slider() {
   }
   
   let current = 2;
-
-  setInterval(()=>{
-    switch(current){
-      case 1:
-        current++;
-        page1Click()
-        break;
-      case 2:
-        current++;
-        page2Click()
-        break;
-      case 3:
-        current = 1;
-        page3Click()
-        break;
+  useEffect(() => {
+    const autoSlider = setInterval(()=>{
+      switch(current){
+        case 1:
+          current++;
+          page1Click()
+          break;
+        case 2:
+          current++;
+          page2Click()
+          break;
+        case 3:
+          current = 1;
+          page3Click()
+          break;
+      }
+    }, 5000)
+    return () => {
+      clearInterval(autoSlider);
     }
-  }, 5000)
+  
+  }, [])
+  
+
+
 
   return (
     <Fragment>
