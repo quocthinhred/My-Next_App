@@ -84,6 +84,9 @@ const Temp = styled.div`
 `
 
 function Slider() {
+
+  let autoSlider;
+
   const slider = useRef(null);
   const slider1 = useRef(null);
   const slider2 = useRef(null);
@@ -93,6 +96,9 @@ function Slider() {
   const page3 = useRef(null);
 
   const page1Click = () => {
+    clearInterval(autoSlider);
+    autoSlider = setInterval(SliderAuto, 5000)
+    current = 2;
     slider.current.classList.add("slide1");
     slider.current.classList.remove("slide2");
     slider.current.classList.remove("slide3");
@@ -107,6 +113,9 @@ function Slider() {
   }
 
   const page2Click = () => {
+    clearInterval(autoSlider);
+    autoSlider = setInterval(SliderAuto, 5000)
+    current = 3;
     slider.current.classList.add("slide2");
     slider.current.classList.remove("slide1");
     slider.current.classList.remove("slide3");
@@ -120,6 +129,9 @@ function Slider() {
   }
 
   const page3Click = () => {
+    clearInterval(autoSlider);
+    autoSlider = setInterval(SliderAuto, 5000)
+    current = 1;
     slider.current.classList.add("slide3");
     slider.current.classList.remove("slide2");
     slider.current.classList.remove("slide1");
@@ -133,23 +145,26 @@ function Slider() {
   }
   
   let current = 2;
+
+  const SliderAuto = ()=>{
+    switch(current){
+      case 1:
+        current++;
+        page1Click()
+        break;
+      case 2:
+        current++;
+        page2Click()
+        break;
+      case 3:
+        current = 1;
+        page3Click()
+        break;
+    }
+  }
+
   useEffect(() => {
-    const autoSlider = setInterval(()=>{
-      switch(current){
-        case 1:
-          current++;
-          page1Click()
-          break;
-        case 2:
-          current++;
-          page2Click()
-          break;
-        case 3:
-          current = 1;
-          page3Click()
-          break;
-      }
-    }, 5000)
+    autoSlider = setInterval(SliderAuto, 5000)
     return () => {
       clearInterval(autoSlider);
     }
