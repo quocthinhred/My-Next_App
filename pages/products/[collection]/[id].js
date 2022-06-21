@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Layout from '../../../components/Layout'
 import { getProductById, getProductIds } from '../../../lib/product'
+import Link from 'next/link'
 
 const Container = styled.div`
     display: flex;
@@ -44,6 +45,25 @@ const AddToCart = styled.div`
     }
 `
 
+
+
+const Back = styled.button`
+    border: none;
+    background: #ff4c3b;
+    border-radius: 3px;
+    padding: 10px 40px;
+    width: fit-content;
+    margin: 50px auto;
+    color: white;
+    &:hover {
+        opacity: 0.8;
+        transition: 1s;
+    }
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+`
+
 function ProductPage({product}) {
   return (
     <Layout>
@@ -61,6 +81,7 @@ function ProductPage({product}) {
                 <AddToCart>Add To Cart</AddToCart>
             </div>
         </Container>
+        <Link href={`/products/${product.category}`} passHref><Back>Back To Collection</Back></Link>
     </Layout>
   )
 }
