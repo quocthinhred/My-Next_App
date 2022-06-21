@@ -9,6 +9,7 @@ import Footer from '../components/footer'
 import ProductCard from '../components/product/productCard'
 import { getCategories } from '../lib/category'
 import { getAllProduct, getRecommendProduct } from '../lib/product'
+import Link from 'next/link'
 
 const Category = styled.div `
     display: flex;
@@ -38,16 +39,15 @@ export default function Home(props) {
       <h1 className='text-center mt-5'>Product Categories</h1>
       <Category>
         {collections.map((collection, index) => (
-          <CategoryCard key={index} name={collection} image={collectionImages[index]}></CategoryCard>
+          <Link key={index} href={`/products/${collection}`}><a style={{textDecoration: 'none'}}><CategoryCard name={collection} image={collectionImages[index]}></CategoryCard></a></Link>
         ))}
       </Category>
       <h1 className='text-center mt-5'>Product Recommend</h1>
       <Product>
         {products.map((product, index) => (
-          <ProductCard key={index} name={product.title} image={product.image} price={product.price}></ProductCard>
+          <Link key={index} href={`/products/${product.category}/${product.id}`} passHref><a style={{textDecoration: 'none'}}><ProductCard name={product.title} image={product.image} price={product.price}></ProductCard></a></Link>
         ))}
       </Product>
-      <Footer></Footer>
     </Layout>
   )
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Link from 'next/link'
 
 const Image = styled.img`
         width: 100%;
@@ -7,8 +8,9 @@ const Image = styled.img`
     `
 
     const Card = styled.div`
+        text-decoration: none;
         padding: 15px;
-        margin: 20px;
+        margin: 20px 2vw;
         width: 20vw;
         height: 40vw;
         max-width: 280px;
@@ -23,6 +25,7 @@ const Image = styled.img`
     `
 
     const Name = styled.div`
+        color: #333;
         padding: 5%;
         overflow: hidden;
         display: -webkit-box;
@@ -34,6 +37,7 @@ const Image = styled.img`
     `
 
     const Price = styled.div `
+        color: #777;
         padding: 5%;
         padding-top: 0;
     `

@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { Fragment } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
+import Footer from './footer';
 import NavbarMenu from './NavbarMenu';
 
 
@@ -16,6 +17,7 @@ const Layout = ({children}) => (
             <NavbarMenu></NavbarMenu>
         </header>
         <main style={{ paddingBottom: '30px' }}>{children}</main>
+        <Footer></Footer>
     </Fragment>
 )   
 

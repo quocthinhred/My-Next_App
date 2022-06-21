@@ -6,8 +6,7 @@ const NavbarMenu = () => (
         <Navbar.Brand>My Next App</Navbar.Brand>
         <Nav>
             <Link href='/' passHref><Nav.Link>Home</Nav.Link></Link>
-            <Link href='/posts' passHref><Nav.Link>Posts</Nav.Link></Link>
-            <Link href='/jokes' passHref><Nav.Link>Jokes</Nav.Link></Link>
+            <Link href='/products' passHref><Nav.Link>Products</Nav.Link></Link>
             <Link href='/about' passHref ><Nav.Link>About</Nav.Link></Link>
         </Nav>
     </Navbar>
