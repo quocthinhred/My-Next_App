@@ -65,9 +65,12 @@ const Page = styled.button`
   border-radius: 2px;
   margin: 5%;
   cursor: pointer;
+  opacity: 0.5;
   &.active {
     width: 75px;
+    background: white;
     transition: 1s;
+    opacity: 1;
   }
 `
 
@@ -129,7 +132,7 @@ function Slider() {
     // slider1.current.classList.remove("active");
   }
   
-  let current = 1;
+  let current = 2;
 
   setInterval(()=>{
     switch(current){
@@ -157,7 +160,7 @@ function Slider() {
       </Container>
       <Temp>
           <PageContainer>
-            <Page ref={page1} onClick={page1Click}></Page>
+            <Page className='active' ref={page1} onClick={page1Click}></Page>
             <Page ref={page2} onClick={page2Click}></Page>
             <Page ref={page3} onClick={page3Click}></Page>
           </PageContainer>
