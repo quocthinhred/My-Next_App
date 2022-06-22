@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { useCartContext } from '../../context/cartState'
+
 
 const Summary = styled.div`
     margin: 20px;
@@ -38,6 +40,9 @@ const Button = styled.div`
 `
 
 const Sumary = () => {
+
+    const showCheckout = useCartContext();
+
   return (
     <Summary>
         <h3>Order Summary</h3>
@@ -45,7 +50,7 @@ const Sumary = () => {
             <Label>Total</Label>
             <Price>$98</Price>
         </Total>
-        <Button>CHECKOUT</Button>
+        <Button onClick={()=>{showCheckout.setShowCheckout(true)}}>CHECKOUT</Button>
     </Summary>
   )
 }

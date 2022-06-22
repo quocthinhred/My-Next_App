@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Layout from '../../../components/Layout'
 import { getProductById, getProductIds } from '../../../lib/product'
 import Link from 'next/link'
+import { useCookies } from "react-cookie"
 
 const Container = styled.div`
     display: flex;
@@ -65,6 +66,54 @@ const Back = styled.button`
 `
 
 function ProductPage({product}) {
+    const productInfo = {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+        amount: 1
+    }
+
+    const [cookie, setCookie] = useCookies(["listProducts"])
+
+    let ListProducts = [];
+    const [button, setButton] = useState(0);
+    const [incart, setIncart] = useState(0);
+
+    useEffect(()=>{
+        if (cookie.listProducts){
+            setIncart(cookie.listProducts.some((item)=>{
+                return item.id == product.id;
+            }))
+        }
+        console.log(cookie.listProducts)
+    })
+    const first = useRef(1);
+
+
+    useEffect(()=>{
+        if (!first.current && !incart){
+            ListProducts = [];
+            // ListProducts = window.localStorage.getItem("listProducts")?JSON.parse(window.localStorage.getItem("listProducts")):[];
+            // ListProducts.push(productInfo);
+            // window.localStorage.setItem("listProducts", JSON.stringify(ListProducts));
+            ListProducts = cookie.listProducts?cookie.listProducts:[];
+            ListProducts.push(productInfo);
+            setCookie("listProducts", JSON.stringify(ListProducts), {
+                path: "/",
+                maxAge: 3600, // Expires after 1hr
+                sameSite: true,
+            })
+            setIncart(1);
+            
+        }
+        else {
+            first.current = 0;
+        }
+    }, [button])
+
+    
+
   return (
     <Layout>
         <Container>
@@ -78,7 +127,7 @@ function ProductPage({product}) {
                     <Label>Description:</Label>
                     <Description>{product.description}</Description>
                 </div>
-                <AddToCart>Add To Cart</AddToCart>
+                <AddToCart onClick={()=>{setButton(!button)}}>Add To Cart</AddToCart>
             </div>
         </Container>
         <Link href={`/products/${product.category}`} passHref><Back>Back To Collection</Back></Link>

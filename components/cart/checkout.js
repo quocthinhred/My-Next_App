@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 import styled from 'styled-components'
+import { useCartContext } from '../../context/cartState'
 import CheckoutItem from './checkoutitem'
 
 const Modal = styled.div`
@@ -86,11 +87,22 @@ const CheckoutContain = styled.div`
 `
 
 const Checkout = ({listProduct}) => {
+    const showCheckout = useCartContext();
+
+    useEffect(()=>{
+        document.body.classList.add('modalOpen');
+        window.onclick = () => {
+            if (showCheckout.showCheckout){
+                showCheckout.setShowCheckout(false);
+            }
+        }
+        return () =>{window.onclick = null};
+    })
+
   return (
     <CheckoutContain>
-          
           <Modal>
-          <Container>
+          <Container onClick={(e)=>{e.stopPropagation()}}>
               <Head>Checkout Summary</Head>
               <ListItem>
                   <ListHead>
