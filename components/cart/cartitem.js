@@ -1,6 +1,6 @@
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import styled from 'styled-components'
 import { useCartContext } from '../../context/cartState'
@@ -13,6 +13,9 @@ const Card = styled.div`
     justify-content: space-around;
     align-items: center;
     gap: 20px;
+    &.hidden {
+        display: none;
+    }
 `
 
 const Image = styled.img`
@@ -89,7 +92,7 @@ const CartItem = ({product}) => {
                 item.amount = +count;
             }
         }
-        console.log(ListProducts)
+        console.log("Before Delete:", ListProducts)
         cartState.setListProducts(ListProducts);
         setCookie("listProducts", JSON.stringify(ListProducts), {
             path: "/",
@@ -107,12 +110,30 @@ const CartItem = ({product}) => {
         }
         cartState.setTotal(Math.round(Total * 100) / 100);
     }, [count])
+    
+    const [mount, setMount] = useState(1);
+
+    const DeleteItem = ()=>{
+        ListProducts.forEach((item, index) => {
+            if (item.id == product.id){
+                ListProducts.splice(index, 1);
+            }
+        })
+        cartState.setListProducts(ListProducts);
+        setCookie("listProducts", JSON.stringify(ListProducts), {
+            path: "/",
+            maxAge: 3600, // Expires after 1hr
+            sameSite: true,
+        })
+        console.log("After Delete:", ListProducts)
+        setMount(0);
+    }
 
     
     
 
   return (
-    <Card>
+    <Card className={mount?'':'hidden'}>
         <Image src={product.image} alt='Product In Cart Image'/>
         <Text>
             <Title>{product.title}</Title>
@@ -121,7 +142,7 @@ const CartItem = ({product}) => {
         <Input>
             <Count value={count} onChange={(e)=>{e.target.value?setCount(e.target.value):setCount(1)}} type='number' max="9" min="1" step="1" />
         </Input>
-        <Delete>
+        <Delete onClick={DeleteItem}>
             <FontAwesomeIcon icon={faTrash} />
         </Delete>
     </Card>

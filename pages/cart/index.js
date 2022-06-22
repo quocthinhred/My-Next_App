@@ -39,8 +39,8 @@ const CheckoutContain = styled.div`
 
 const Cart = ({ListProducts}) => {
 
-    const showCheckout = useCartContext();
-    const listProducts = JSON.parse(ListProducts.listProducts)
+    const cartState = useCartContext();
+    const listProducts = JSON.parse(ListProducts.listProducts);
   return (
         <Layout>
             <Container>
@@ -53,7 +53,7 @@ const Cart = ({ListProducts}) => {
                     <Sumary></Sumary>
                 </Summary>
             </Container>
-            <CheckoutContain className={showCheckout.showCheckout?'active':''}>
+            <CheckoutContain className={cartState.showCheckout?'active':''}>
                 <Checkout></Checkout>
             </CheckoutContain>
         </Layout>
