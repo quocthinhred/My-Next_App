@@ -86,14 +86,14 @@ const CheckoutContain = styled.div`
     position: fixed;
 `
 
-const Checkout = ({listProduct}) => {
-    const showCheckout = useCartContext();
+const Checkout = () => {
+    const cartState = useCartContext();
 
     useEffect(()=>{
         document.body.classList.add('modalOpen');
         window.onclick = () => {
-            if (showCheckout.showCheckout){
-                showCheckout.setShowCheckout(false);
+            if (cartState.showCheckout){
+                cartState.setShowCheckout(false);
             }
         }
         return () =>{window.onclick = null};
@@ -110,7 +110,7 @@ const Checkout = ({listProduct}) => {
                       <Label>Amount</Label>
                       <Label>Item Subtotal</Label>
                   </ListHead>
-                  {listProduct.map((product, index)=>(
+                  {cartState.listProducts.map((product, index)=>(
                     <CheckoutItem key={index} product={product}></CheckoutItem>
                   ))}
               </ListItem>

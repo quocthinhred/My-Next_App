@@ -4,6 +4,7 @@ import Layout from '../../../components/Layout'
 import { getProductById, getProductIds } from '../../../lib/product'
 import Link from 'next/link'
 import { useCookies } from "react-cookie"
+import { useCartContext } from '../../../context/cartState'
 
 const Container = styled.div`
     display: flex;
@@ -74,6 +75,8 @@ function ProductPage({product}) {
         amount: 1
     }
 
+    const cartState = useCartContext();
+    
     const [cookie, setCookie] = useCookies(["listProducts"])
 
     let ListProducts = [];
@@ -86,7 +89,6 @@ function ProductPage({product}) {
                 return item.id == product.id;
             }))
         }
-        console.log(cookie.listProducts)
     })
     const first = useRef(1);
 
@@ -99,6 +101,7 @@ function ProductPage({product}) {
             // window.localStorage.setItem("listProducts", JSON.stringify(ListProducts));
             ListProducts = cookie.listProducts?cookie.listProducts:[];
             ListProducts.push(productInfo);
+            cartState.setListProducts(ListProducts);
             setCookie("listProducts", JSON.stringify(ListProducts), {
                 path: "/",
                 maxAge: 3600, // Expires after 1hr

@@ -54,7 +54,7 @@ const Cart = ({ListProducts}) => {
                 </Summary>
             </Container>
             <CheckoutContain className={showCheckout.showCheckout?'active':''}>
-                <Checkout listProduct={listProducts}></Checkout>
+                <Checkout></Checkout>
             </CheckoutContain>
         </Layout>
   )

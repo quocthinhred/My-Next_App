@@ -1,7 +1,9 @@
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useCookies } from 'react-cookie'
 import styled from 'styled-components'
+import { useCartContext } from '../../context/cartState'
 
 const Card = styled.div`
     border: 1px solid #eee;
@@ -64,8 +66,50 @@ const Title = styled.div`
 `
 
 const CartItem = ({product}) => {
-
+    const [cookie, setCookie] = useCookies("listProducts");
     const [count, setCount] = useState(1);
+    const cartState = useCartContext();
+
+    let ListProducts = [];
+    ListProducts = cookie.listProducts?cookie.listProducts:[];
+
+    useEffect(()=>{
+        if (ListProducts){
+            ListProducts.forEach(item => {
+                if (item.id == product.id){
+                    setCount(item.amount)
+                }
+            })
+        }
+    }, [])
+
+    useEffect(()=>{
+        for (let item of ListProducts) {
+            if (item.id == product.id){
+                item.amount = +count;
+            }
+        }
+        console.log(ListProducts)
+        cartState.setListProducts(ListProducts);
+        setCookie("listProducts", JSON.stringify(ListProducts), {
+            path: "/",
+            maxAge: 3600, // Expires after 1hr
+            sameSite: true,
+        })
+    }, [count])
+
+    
+
+    useEffect(()=>{
+        let Total = 0;
+        for (let item of cookie.listProducts) {
+            Total = Total + item.price*item.amount;
+        }
+        cartState.setTotal(Math.round(Total * 100) / 100);
+    }, [count])
+
+    
+    
 
   return (
     <Card>

@@ -41,16 +41,17 @@ const Button = styled.div`
 
 const Sumary = () => {
 
-    const showCheckout = useCartContext();
+    const cartState = useCartContext();
+    
 
   return (
     <Summary>
         <h3>Order Summary</h3>
         <Total>
             <Label>Total</Label>
-            <Price>$98</Price>
+            <Price>{cartState.total}</Price>
         </Total>
-        <Button onClick={()=>{showCheckout.setShowCheckout(true)}}>CHECKOUT</Button>
+        <Button onClick={()=>{cartState.setShowCheckout(true)}}>CHECKOUT</Button>
     </Summary>
   )
 }
