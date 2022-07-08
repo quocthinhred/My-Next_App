@@ -73,7 +73,6 @@ const CartItem = ({product}) => {
     const [count, setCount] = useState(1);
     const cartState = useCartContext();
     
-    console.log("CartItem", cookie.listProducts);
     // ListProducts = cookie.listProducts?cookie.listProducts:[];
     useEffect(()=>{
         if (cookie.listProducts){
@@ -86,20 +85,22 @@ const CartItem = ({product}) => {
     }, [])
 
     useEffect(()=>{
-        console.log("Before Count: ", product.title, cookie.listProducts)
-        for (let item of cookie.listProducts) {
+        for (let item of cartState.listProducts) {
             if (item.id == product.id){
                 item.amount = +count;
             }
         }
-        cartState.setListProducts([...cookie.listProducts])
-        setCookie("listProducts", JSON.stringify(cookie.listProducts), {
+        cartState.setListProducts([...cartState.listProducts])
+        setCookie("listProducts", JSON.stringify(cartState.listProducts), {
             path: "/",
             maxAge: 3600, // Expires after 1hr
             sameSite: true,
         })
-        console.log("After Count: ", cookie.listProducts)
     }, [count])
+
+    useEffect(()=>{
+        console.log("hehe", cartState.listProducts);
+    }, [cartState.listProducts])
 
     const [mount, setMount] = useState(1);
 
