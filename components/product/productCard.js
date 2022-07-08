@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
+import Image from 'next/image'
 
-const Image = styled.img`
+const Image1 = styled.img`
         width: 100%;
         height: 75%;
     `
@@ -44,10 +45,13 @@ const Image = styled.img`
     
 function ProductCard(props) {
     
+    const myLoader = ({ src, width, quality }) => {
+        return src;
+      }
 
     return (
         <Card>
-            <Image src={props.image} alt='category' />
+            <Image loader={myLoader} src={props.image} alt='category' width={"185px"} height={"275px"}  placeholder='blur' blurDataURL="skeleton.jpg" />
             <Name>
                 {props.name}
             </Name>

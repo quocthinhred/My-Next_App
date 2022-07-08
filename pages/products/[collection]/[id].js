@@ -5,6 +5,8 @@ import { getProductById, getProductIds } from '../../../lib/product'
 import Link from 'next/link'
 import { useCookies } from "react-cookie"
 import { useCartContext } from '../../../context/cartState'
+import Modal from 'react-bootstrap/Modal';
+
 
 const Container = styled.div`
     display: flex;
@@ -66,6 +68,11 @@ const Back = styled.button`
     transform: translateX(-50%);
 `
 
+const ModalIcon = styled.img`
+    width: 70px;
+    margin: 30px auto -30px;
+`
+
 function ProductPage({product}) {
     const productInfo = {
         id: product.id,
@@ -94,6 +101,18 @@ function ProductPage({product}) {
 
 
     useEffect(()=>{
+        if (!first.current){
+            if (!incart){
+                handleShow();
+            }
+            else{
+                handleShow2();
+            }
+        }
+    }, [button])
+
+    useEffect(()=>{
+        
         if (!first.current && !incart){
             ListProducts = [];
             // ListProducts = window.localStorage.getItem("listProducts")?JSON.parse(window.localStorage.getItem("listProducts")):[];
@@ -115,6 +134,21 @@ function ProductPage({product}) {
         }
     }, [button])
 
+
+    const [fullscreen, setFullscreen] = useState(true);
+    const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
+
+    function handleShow() {
+        setFullscreen("sm-down");
+        setShow(true);
+    }
+    
+    function handleShow2() {
+        setFullscreen("sm-down");
+        setShow2(true);
+    }
+
     
 
   return (
@@ -134,6 +168,20 @@ function ProductPage({product}) {
             </div>
         </Container>
         <Link href={`/products/${product.category}`} passHref><Back>Back To Collection</Back></Link>
+        <Modal style={{marginTop: '10%'}} show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
+            <Modal.Header closeButton>
+            <Modal.Title></Modal.Title>
+            </Modal.Header>
+            <ModalIcon src='/image/success.png' alt='success' />
+            <Modal.Body className='my-5 text-center'>Add To Cart Successfully!</Modal.Body>
+        </Modal>
+        <Modal style={{marginTop: '10%'}} show={show2} fullscreen={fullscreen} onHide={() => setShow2(false)}>
+            <Modal.Header closeButton>
+            <Modal.Title></Modal.Title>
+            </Modal.Header>
+            <ModalIcon src='/image/failed.png' alt='failed' />
+            <Modal.Body className='my-5 text-center'>Product In Cart Already!</Modal.Body>
+        </Modal>
     </Layout>
   )
 }

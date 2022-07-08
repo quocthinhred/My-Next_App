@@ -69,39 +69,38 @@ const Title = styled.div`
 `
 
 const CartItem = ({product}) => {
-    const [cookie, setCookie] = useCookies("listProducts");
+    let [cookie, setCookie] = useCookies("listProducts");
     const [count, setCount] = useState(1);
     const cartState = useCartContext();
-
-    let ListProducts = [];
-    ListProducts = cookie.listProducts?cookie.listProducts:[];
-
+    
+    console.log("CartItem", cookie.listProducts);
+    // ListProducts = cookie.listProducts?cookie.listProducts:[];
     useEffect(()=>{
-        if (ListProducts){
-            ListProducts.forEach(item => {
+        if (cookie.listProducts){
+            cookie.listProducts.forEach(item => {
                 if (item.id == product.id){
                     setCount(item.amount)
                 }
             })
         }
-    }, [])
+    }, [cartState.listProducts])
 
     useEffect(()=>{
-        for (let item of ListProducts) {
+        console.log("Before Count: ", product.title, cookie.listProducts)
+        for (let item of cookie.listProducts) {
             if (item.id == product.id){
                 item.amount = +count;
             }
         }
-        console.log("Before Delete:", ListProducts)
-        cartState.setListProducts(ListProducts);
-        setCookie("listProducts", JSON.stringify(ListProducts), {
+        setCookie("listProducts", JSON.stringify(cookie.listProducts), {
             path: "/",
             maxAge: 3600, // Expires after 1hr
             sameSite: true,
         })
+        console.log("After Count: ", cookie.listProducts)
     }, [count])
 
-    
+    const [mount, setMount] = useState(1);
 
     useEffect(()=>{
         let Total = 0;
@@ -109,26 +108,32 @@ const CartItem = ({product}) => {
             Total = Total + item.price*item.amount;
         }
         cartState.setTotal(Math.round(Total * 100) / 100);
-    }, [count])
+    }, [count, mount])
     
-    const [mount, setMount] = useState(1);
+    
 
     const DeleteItem = ()=>{
-        ListProducts.forEach((item, index) => {
+        console.log("Before Delete: ", cookie.listProducts);
+        cookie.listProducts.forEach((item, index) => {
             if (item.id == product.id){
-                ListProducts.splice(index, 1);
+                cookie.listProducts.splice(index, 1);
             }
         })
-        cartState.setListProducts(ListProducts);
-        setCookie("listProducts", JSON.stringify(ListProducts), {
+        console.log("After Delete 1: ", cookie.listProducts);
+        setCookie("listProducts", JSON.stringify(cookie.listProducts), {
             path: "/",
             maxAge: 3600, // Expires after 1hr
             sameSite: true,
         })
-        console.log("After Delete:", ListProducts)
+        cartState.setListProducts(cookie.listProducts);
+        console.log("After Delete 2: ", cookie.listProducts);
+        setCount(0);
         setMount(0);
     }
 
+    if (count === 0) {
+        return null;
+    }
     
     
 

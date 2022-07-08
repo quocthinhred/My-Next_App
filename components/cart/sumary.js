@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { useCartContext } from '../../context/cartState'
 
@@ -42,7 +42,16 @@ const Button = styled.div`
 const Sumary = () => {
 
     const cartState = useCartContext();
-    
+
+    useEffect(()=>{
+        window.onclick = () => {
+            console.log("first")
+            if (cartState.showCheckout){
+                cartState.setShowCheckout(false);
+                document.body.classList.remove('modalOpen');
+            }
+        }
+    })
 
   return (
     <Summary>
@@ -51,7 +60,7 @@ const Sumary = () => {
             <Label>Total</Label>
             <Price>{cartState.total}</Price>
         </Total>
-        <Button onClick={()=>{cartState.setShowCheckout(true)}}>CHECKOUT</Button>
+        <Button onClick={(e)=>{cartState.setShowCheckout(true); e.stopPropagation()}}>CHECKOUT</Button>
     </Summary>
   )
 }

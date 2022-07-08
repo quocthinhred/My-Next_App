@@ -1,4 +1,5 @@
-import React, { Fragment, useEffect, useRef } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
+import { useCookies } from 'react-cookie'
 import styled from 'styled-components'
 import { useCartContext } from '../../context/cartState'
 import CheckoutItem from './checkoutitem'
@@ -87,17 +88,23 @@ const CheckoutContain = styled.div`
 `
 
 const Checkout = () => {
-    const cartState = useCartContext();
 
+    const [cookie, setCookie] = useCookies("listProducts");
+    const cartState = useCartContext();
+    console.log("In Checkout: ", cookie.listProducts)
+    const [listProducts, setListProducts] = useState(cookie.listProducts?cookie.listProducts:[]);
     useEffect(()=>{
+        cartState.setListProducts([...cookie.listProducts]);
+    }, [])
+    useEffect(()=>{
+        setListProducts([...cookie.listProducts])
         document.body.classList.add('modalOpen');
-        window.onclick = () => {
-            if (cartState.showCheckout){
-                cartState.setShowCheckout(false);
-            }
-        }
-        return () =>{window.onclick = null};
-    })
+        return () =>{
+            cartState.setShowCheckout(false);
+            window.onclick = null;
+            document.body.classList.remove('modalOpen');
+        };
+    }, [cartState.listProducts])
 
   return (
     <CheckoutContain>
@@ -110,7 +117,7 @@ const Checkout = () => {
                       <Label>Amount</Label>
                       <Label>Item Subtotal</Label>
                   </ListHead>
-                  {cartState.listProducts.map((product, index)=>(
+                  {cartState.listProducts.length != 0 && cartState.listProducts.map((product, index)=>(
                     <CheckoutItem key={index} product={product}></CheckoutItem>
                   ))}
               </ListItem>

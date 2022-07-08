@@ -1,13 +1,21 @@
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import Link from 'next/link'
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const NavbarMenu = () => (
-    <Navbar bg='dark' variant='dark' className='px-3'>
+    <Navbar bg='dark' variant='dark' className='px-5'>
         <Navbar.Brand>My Next App</Navbar.Brand>
-        <Nav>
-            <Link href='/' passHref><Nav.Link>Home</Nav.Link></Link>
-            <Link href='/products' passHref><Nav.Link>Products</Nav.Link></Link>
-            <Link href='/about' passHref ><Nav.Link>About</Nav.Link></Link>
+        <Nav style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+            <div style={{display: 'flex'}}>
+                <Link href='/' passHref><Nav.Link>Home</Nav.Link></Link>
+                <Link href='/products' passHref><Nav.Link>Products</Nav.Link></Link>
+                <Link href='/about' passHref><Nav.Link>About</Nav.Link></Link>
+            </div>
+            <div>
+                <Link href='/cart' passHref><Nav.Link><FontAwesomeIcon icon={faCartShopping} /></Nav.Link></Link>
+            </div>
+            
         </Nav>
     </Navbar>
 )
