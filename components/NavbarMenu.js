@@ -10,6 +10,7 @@ const NavbarMenu = () => (
             <div style={{display: 'flex'}}>
                 <Link href='/' passHref><Nav.Link>Home</Nav.Link></Link>
                 <Link href='/products' passHref><Nav.Link>Products</Nav.Link></Link>
+                <Link href='/recommend' passHref><Nav.Link>Trending</Nav.Link></Link>
                 <Link href='/about' passHref><Nav.Link>About</Nav.Link></Link>
             </div>
             <div>
