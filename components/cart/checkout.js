@@ -91,20 +91,20 @@ const Checkout = () => {
 
     const [cookie, setCookie] = useCookies("listProducts");
     const cartState = useCartContext();
-    console.log("In Checkout: ", cookie.listProducts)
     const [listProducts, setListProducts] = useState(cookie.listProducts?cookie.listProducts:[]);
+
     useEffect(()=>{
         cartState.setListProducts([...cookie.listProducts]);
     }, [])
+
     useEffect(()=>{
-        setListProducts([...cookie.listProducts])
         document.body.classList.add('modalOpen');
         return () =>{
             cartState.setShowCheckout(false);
             window.onclick = null;
             document.body.classList.remove('modalOpen');
         };
-    }, [cartState.listProducts])
+    }, [])
 
   return (
     <CheckoutContain>

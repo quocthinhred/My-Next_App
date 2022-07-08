@@ -83,7 +83,7 @@ const CartItem = ({product}) => {
                 }
             })
         }
-    }, [cartState.listProducts])
+    }, [])
 
     useEffect(()=>{
         console.log("Before Count: ", product.title, cookie.listProducts)
@@ -92,6 +92,7 @@ const CartItem = ({product}) => {
                 item.amount = +count;
             }
         }
+        cartState.setListProducts([...cookie.listProducts])
         setCookie("listProducts", JSON.stringify(cookie.listProducts), {
             path: "/",
             maxAge: 3600, // Expires after 1hr
