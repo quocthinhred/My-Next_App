@@ -189,7 +189,7 @@ function ProductPage({product}) {
 export default ProductPage
 
 export const getStaticPaths = async () => {
-    const paths = await getProductIds()
+    const paths = await getProductIds();
     return {
         paths,
         // fallback: false // Path nào không return bởi getStaticPaths sẽ dẫn về 404
@@ -199,6 +199,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({params}) => {
     const product = await getProductById(params.id)
+    
     return {
         props: {
             product
