@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { Card, Spinner } from 'react-bootstrap'
 import Layout from '../../components/Layout'
-import { getPostById, getPostIds } from '../../lib/post'
+import { getPostById, getPostIds, getSomeThing } from '../../lib/post'
 import {useRouter} from 'next/router'
 
 const Post = ({ post }) => {
@@ -21,14 +21,11 @@ const Post = ({ post }) => {
             <Card className='my-3 shadow mx-2'>
                 <Card.Body>
                     <Card.Title>
-                        {post.id}. {post.title}
+                        {post.customerShortInfo.name}
                     </Card.Title>
                     <Card.Text>
-                        {post.body}
+                        {post.content}
                     </Card.Text>
-                    <Link href='/posts' passHref>
-                        <Card.Link>Back</Card.Link>
-                    </Link>
                 </Card.Body>
             </Card>
         </Layout>
@@ -38,7 +35,7 @@ const Post = ({ post }) => {
 export const getServerSideProps = async (context) => {
     context.res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate=5');
     await new Promise((resolve)=>{setTimeout(resolve, 3000)});
-    const post = await getPostById("1");
+    const post = await getSomeThing();
     return {
         props: {
             post
