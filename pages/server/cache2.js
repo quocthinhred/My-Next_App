@@ -33,7 +33,7 @@ const Post = ({ post }) => {
 }
 
 export const getServerSideProps = async (context) => {
-    context.res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate');
+    context.res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate');
     await new Promise((resolve)=>{setTimeout(resolve, 3000)});
     const post = await getSomeThing();
     return {
