@@ -75,8 +75,8 @@ const CartItem = ({product}) => {
     
     // ListProducts = cookie.listProducts?cookie.listProducts:[];
     useEffect(()=>{
-        if (cookie.listProducts){
-            cookie.listProducts.forEach(item => {
+        if (cartState.listProducts){
+            cartState.listProducts.forEach(item => {
                 if (item.id == product.id){
                     setCount(item.amount)
                 }

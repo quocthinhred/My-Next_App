@@ -4,6 +4,7 @@ import ProductCard from '../../../components/product/productCard'
 import { getAllProduct } from '../../../lib/product'
 import styled from 'styled-components'
 import Link from 'next/link'
+import {useRouter} from 'next/router'
 
 const Container = styled.div`
     display: flex;
@@ -35,12 +36,27 @@ const Back = styled.button`
 
 function Product(props) {
 
+    const router = useRouter();
+    
+    const HandleClick = (product) => {
+        router.push(`/products/product/${product.id}`);
+    }
+
   return (
     <Layout>
         <Title className='text-center mt-5'>All Products</Title>
         <Container>
             {props.products.map((product, index) => (
-                <Link key={index} href={`/products/product/${product.id}`} passHref><a style={{textDecoration: 'none'}}><ProductCard name={product.title} price={product.price} image={product.image}></ProductCard></a></Link>
+                <div onClick={()=>{HandleClick(product)}} key={index}>
+                    <ProductCard key={index} name={product.title} price={product.price} image={product.image}>
+                    </ProductCard>
+                </div>
+                // <Link prefetch={false} key={index} href={`/products/product/${product.id}`} passHref>
+                //     <a style={{ textDecoration: 'none' }}>
+                //         <ProductCard name={product.title} price={product.price} image={product.image}>
+                //         </ProductCard>
+                //     </a>
+                // </Link>
             ))}
         </Container>
         <Link href='/' passHref><Back>Back To Home</Back></Link>

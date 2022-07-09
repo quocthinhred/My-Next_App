@@ -75,25 +75,22 @@ const ModalIcon = styled.img`
     margin: 30px auto -30px;
 `
 
-function ProductPage({product}) {
+function ProductPage({ product }) {
 
-
-    
-
-    
+    const router = useRouter()
 
     const cartState = useCartContext();
-    
+
     const [cookie, setCookie] = useCookies(["listProducts"])
 
     let ListProducts = [];
     const [button, setButton] = useState(0);
     const [incart, setIncart] = useState(0);
 
-    useEffect(()=>{
-        if (!router.isFallback){
-            if (cookie.listProducts){
-                setIncart(cookie.listProducts.some((item)=>{
+    useEffect(() => {
+        if (!router.isFallback) {
+            if (cookie.listProducts) {
+                setIncart(cookie.listProducts.some((item) => {
                     return item.id == product.id;
                 }))
             }
@@ -102,25 +99,27 @@ function ProductPage({product}) {
     const first = useRef(1);
 
 
-    useEffect(()=>{
-        if (!first.current){
-            if (!incart){
+    useEffect(() => {
+        if (!first.current) {
+            if (!incart) {
                 handleShow();
             }
-            else{
+            else {
                 handleShow2();
             }
         }
     }, [button])
 
-    useEffect(()=>{
-        
-        if (!first.current && !incart){
+    useEffect(() => {
+
+
+
+        if (!first.current && !incart) {
             ListProducts = [];
             // ListProducts = window.localStorage.getItem("listProducts")?JSON.parse(window.localStorage.getItem("listProducts")):[];
             // ListProducts.push(productInfo);
             // window.localStorage.setItem("listProducts", JSON.stringify(ListProducts));
-            ListProducts = cookie.listProducts?cookie.listProducts:[];
+            ListProducts = cookie.listProducts ? cookie.listProducts : [];
             ListProducts.push(productInfo);
             cartState.setListProducts(ListProducts);
             setCookie("listProducts", JSON.stringify(ListProducts), {
@@ -129,7 +128,7 @@ function ProductPage({product}) {
                 sameSite: true,
             })
             setIncart(1);
-            
+
         }
         else {
             first.current = 0;
@@ -145,16 +144,22 @@ function ProductPage({product}) {
         setFullscreen("sm-down");
         setShow(true);
     }
-    
+
     function handleShow2() {
         setFullscreen("sm-down");
         setShow2(true);
     }
 
+    const productInfo = router.isFallback || {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+        amount: 1
+    }
 
-    const router = useRouter()
     if (router.isFallback) {
-        setTimeout(()=>{
+        setTimeout(() => {
             console.log("Đợi xíu!");
         }, 2000)
         return (
@@ -167,57 +172,49 @@ function ProductPage({product}) {
             </Layout>
         )
     }
-
-    const productInfo = {
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        image: product.image,
-        amount: 1
+    else {
+        return (
+            <Layout>
+                <Container>
+                    <Image src={product.image} alt='Product Image' />
+                    <div>
+                        <h2>{product.title}</h2>
+                        <div>
+                            <Label>Price: </Label><Price>${product.price}</Price>
+                        </div>
+                        <div>
+                            <Label>Description:</Label>
+                            <Description>{product.description}</Description>
+                        </div>
+                        <AddToCart onClick={() => { setButton(!button) }}>Add To Cart</AddToCart>
+                    </div>
+                </Container>
+                <Link href={`/products/${product.category}`} passHref><Back>Back To Collection</Back></Link>
+                <Modal style={{ marginTop: '10%' }} show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title></Modal.Title>
+                    </Modal.Header>
+                    <ModalIcon src='/image/success.png' alt='success' />
+                    <Modal.Body className='my-5 text-center'>Add To Cart Successfully!</Modal.Body>
+                </Modal>
+                <Modal style={{ marginTop: '10%' }} show={show2} fullscreen={fullscreen} onHide={() => setShow2(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title></Modal.Title>
+                    </Modal.Header>
+                    <ModalIcon src='/image/failed.png' alt='failed' />
+                    <Modal.Body className='my-5 text-center'>Product In Cart Already!</Modal.Body>
+                </Modal>
+            </Layout>
+        )
     }
-    
-    
-
-  return (
-    <Layout>
-        <Container>
-            <Image src={product.image} alt='Product Image' />
-            <div>
-                <h2>{product.title}</h2>
-                <div>
-                    <Label>Price: </Label><Price>${product.price}</Price>
-                </div>
-                <div>
-                    <Label>Description:</Label>
-                    <Description>{product.description}</Description>
-                </div>
-                <AddToCart onClick={()=>{setButton(!button)}}>Add To Cart</AddToCart>
-            </div>
-        </Container>
-        <Link href={`/products/${product.category}`} passHref><Back>Back To Collection</Back></Link>
-        <Modal style={{marginTop: '10%'}} show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
-            <Modal.Header closeButton>
-            <Modal.Title></Modal.Title>
-            </Modal.Header>
-            <ModalIcon src='/image/success.png' alt='success' />
-            <Modal.Body className='my-5 text-center'>Add To Cart Successfully!</Modal.Body>
-        </Modal>
-        <Modal style={{marginTop: '10%'}} show={show2} fullscreen={fullscreen} onHide={() => setShow2(false)}>
-            <Modal.Header closeButton>
-            <Modal.Title></Modal.Title>
-            </Modal.Header>
-            <ModalIcon src='/image/failed.png' alt='failed' />
-            <Modal.Body className='my-5 text-center'>Product In Cart Already!</Modal.Body>
-        </Modal>
-    </Layout>
-  )
 }
+
+
 
 export default ProductPage
 
 export const getStaticPaths = async () => {
     const paths = await getProductIds();
-    console.log(paths);
     return {
         paths,
         // fallback: false // Path nào không return bởi getStaticPaths sẽ dẫn về 404
@@ -227,11 +224,10 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({params}) => {
     const product = await getProductById(params.id)
-    
     return {
         props: {
             product
         },
-        revalidate: 1
+        revalidate: 5
     }
 }

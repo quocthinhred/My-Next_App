@@ -58,7 +58,7 @@ const Cart = ({ListProducts}) => {
         return (
             <Layout>
                 <h2 className='mt-5 text-center'>Your Cart Is Empty!</h2>
-                <Link href={`/products`} passHref><Back>Continue Shopping</Back></Link>
+                <Link href={`/products/product`} passHref><Back>Continue Shopping</Back></Link>
             </Layout>
         )
     }
