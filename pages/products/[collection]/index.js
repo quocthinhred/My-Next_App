@@ -41,7 +41,7 @@ const Collection = (props) => {
         <Title className='text-center mt-5'>{props.products[0].category}</Title>
         <Container>
             {props.products.map((product, index) => (
-                <Link key={index} href={`/products/${product.category}/${product.id}`} passHref><a style={{textDecoration: 'none'}}><ProductCard name={product.title} price={product.price} image={product.image}></ProductCard></a></Link>
+                <Link key={index} href={`/products/product/${product.id}`} passHref><a style={{textDecoration: 'none'}}><ProductCard name={product.title} price={product.price} image={product.image}></ProductCard></a></Link>
             ))}
         </Container>
         <Link href='/' passHref><Back>Back To Home</Back></Link>

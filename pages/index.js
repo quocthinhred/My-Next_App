@@ -45,7 +45,7 @@ export default function Home(props) {
       <h1 className='text-center mt-5'>Product Recommend</h1>
       <Product>
         {products.map((product, index) => (
-          <Link key={index} href={`/products/${product.category}/${product.id}`} passHref><a style={{textDecoration: 'none'}}><ProductCard name={product.title} image={product.image} price={product.price}></ProductCard></a></Link>
+          <Link key={index} href={`/products/product/${product.id}`} passHref><a style={{textDecoration: 'none'}}><ProductCard name={product.title} image={product.image} price={product.price}></ProductCard></a></Link>
         ))}
       </Product>
     </Layout>
