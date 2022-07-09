@@ -47,16 +47,16 @@ function Product(props) {
         <Title className='text-center mt-5'>All Products</Title>
         <Container>
             {props.products.map((product, index) => (
-                <div onClick={()=>{HandleClick(product)}} key={index}>
-                    <ProductCard key={index} name={product.title} price={product.price} image={product.image}>
-                    </ProductCard>
-                </div>
-                // <Link prefetch={false} key={index} href={`/products/product/${product.id}`} passHref>
-                //     <a style={{ textDecoration: 'none' }}>
-                //         <ProductCard name={product.title} price={product.price} image={product.image}>
-                //         </ProductCard>
-                //     </a>
-                // </Link>
+                // <div onClick={()=>{HandleClick(product)}} key={index}>
+                //     <ProductCard key={index} name={product.title} price={product.price} image={product.image}>
+                //     </ProductCard>
+                // </div>
+                <Link key={index} href={`/products/product/${product.id}`} passHref>
+                    <a style={{ textDecoration: 'none' }}>
+                        <ProductCard name={product.title} price={product.price} image={product.image}>
+                        </ProductCard>
+                    </a>
+                </Link>
             ))}
         </Container>
         <Link href='/' passHref><Back>Back To Home</Back></Link>
