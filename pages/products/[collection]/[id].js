@@ -91,10 +91,12 @@ function ProductPage({product}) {
     const [incart, setIncart] = useState(0);
 
     useEffect(()=>{
-        if (cookie.listProducts){
-            setIncart(cookie.listProducts.some((item)=>{
-                return item.id == product.id;
-            }))
+        if (!router.isFallback){
+            if (cookie.listProducts){
+                setIncart(cookie.listProducts.some((item)=>{
+                    return item.id == product.id;
+                }))
+            }
         }
     })
     const first = useRef(1);
@@ -152,6 +154,9 @@ function ProductPage({product}) {
 
     const router = useRouter()
     if (router.isFallback) {
+        setTimeout(()=>{
+            console.log("Đợi xíu!");
+        }, 2000)
         return (
             <Layout>
                 <div className='text-center mt-5'>
@@ -170,6 +175,7 @@ function ProductPage({product}) {
         image: product.image,
         amount: 1
     }
+    
     
 
   return (
