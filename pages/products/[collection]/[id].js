@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { useCookies } from "react-cookie"
 import { useCartContext } from '../../../context/cartState'
 import Modal from 'react-bootstrap/Modal';
+import { Spinner } from 'react-bootstrap'
+import {useRouter} from 'next/router'
 
 
 const Container = styled.div`
@@ -74,13 +76,11 @@ const ModalIcon = styled.img`
 `
 
 function ProductPage({product}) {
-    const productInfo = {
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        image: product.image,
-        amount: 1
-    }
+
+
+    
+
+    
 
     const cartState = useCartContext();
     
@@ -149,6 +149,27 @@ function ProductPage({product}) {
         setShow2(true);
     }
 
+
+    const router = useRouter()
+    if (router.isFallback) {
+        return (
+            <Layout>
+                <div className='text-center mt-5'>
+                    <Spinner animation='border' role='status' variant='dark'>
+                    </Spinner>
+                    <span className='sr-only'>LOADING . . .</span>
+                </div>
+            </Layout>
+        )
+    }
+
+    const productInfo = {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+        amount: 1
+    }
     
 
   return (
@@ -193,7 +214,7 @@ export const getStaticPaths = async () => {
     return {
         paths,
         // fallback: false // Path nào không return bởi getStaticPaths sẽ dẫn về 404
-        fallback: false // 
+        fallback: true // 
     }
 }
 

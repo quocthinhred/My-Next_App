@@ -47,11 +47,11 @@ function ProductCard(props) {
     
     const myLoader = ({ src, width, quality }) => {
         return src;
-      }
+    }
 
     return (
         <Card>
-            <Image loader={myLoader} src={props.image} alt='category' width={"185px"} height={"275px"}  placeholder='blur' blurDataURL="skeleton.jpg" />
+            <Image loader={myLoader} src={props.image} alt='ProductImage' width={"185px"} height={"275px"}  placeholder='blur' blurDataURL="skeleton.jpg" />
             <Name>
                 {props.name}
             </Name>

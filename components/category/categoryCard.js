@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
+import Image from 'next/image'
 
 
-    const Image = styled.img `
-        width: 100%;
-        height: 80%;
-    `
+    // const Image = styled.img `
+    //     width: 100%;
+    //     height: 80%;
+    // `
 
     const Card = styled.div `
         margin: 10px;
@@ -29,11 +30,15 @@ import styled from 'styled-components'
 
 function CategoryCard(props) {
 
+
+    const myLoader = ({ src, width, quality }) => {
+        return src;
+    }
     
 
   return (
     <Card>
-        <Image src={props.image} alt='category'/>
+        <Image loader={myLoader} priority="true" src={props.image} alt='ProductImage' width={"280px"} height={"165px"}  placeholder='blur' blurDataURL="skeleton.jpg" />
         <Text>
             {props.name}
         </Text>
