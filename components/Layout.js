@@ -11,6 +11,7 @@ const Layout = ({children}) => (
             <meta charset="UTF-8"/>
             <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <meta name="zalo-platform-site-verification" content="PVJYTuo6HrPNYTy9d8T844YAuHsa-ZP5D3K" />
             <title>My next app</title>
         </Head>
         <header>
